@@ -111,6 +111,6 @@ function validateEmail(email) {
 
 
 function validateMessage(message) {
-    var re = /^(\S{1,100})?$/;
+    var re = /^(.{0}|.{1,100})$/;
     return re.test(message);
 }
