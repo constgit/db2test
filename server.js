@@ -9,7 +9,8 @@ app.listen(process.env.PORT||5000, function() {
         console.log('Server is listening on port ' + process.env.PORT + '...');
     });
 
-mongoose.connect('mongodb://localhost:27017/db2');
+//mongoose.connect('mongodb://localhost:27017/db2');
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/db2');
 let db = mongoose.connection;
 let Messages = require('./models/messages');
 
