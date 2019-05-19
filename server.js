@@ -11,7 +11,7 @@ const server = https.createServer({
         cert: fs.readFileSync('sslcert/server.crt')
     }, app)
     .listen(process.env.PORT||5000, function() {
-        console.log('Server is listening on port ' + PORT + '...');
+        console.log('Server is listening on port ' + process.env.PORT + '...');
     });
 
 mongoose.connect('mongodb://localhost:27017/db2');
