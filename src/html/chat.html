@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Public Chat</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="/src/css/style.css">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" type="text/css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"> </script>
+    </script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
+    </script>
+    <script type="text/javascript">
+    $(document).ready(function() {
+        var load = 0;
+        var input = '/api/messages/list/' + load;
+        $.get(input, function(data) {
+            $.each(data, function() {
+                var row = "<tr><td>" + (this).email + "</td><td><a class='show' href='/api/messages/single/" + (this)._id + "'> " + (this).message + "<a></td><td>" + (this).created + "</td></tr>"
+                $('#messagesList').append(row);
+            });
+        });
+        $("#downloadMessages").click(function() {
+            load++;
+            input = '/api/messages/list/' + load;
+            $.get(input, function(data) {
+                $.each(data, function() {
+                    var row = "<tr><td>" + (this).email + "</td><td><a class='show' href='/api/messages/single/" + (this)._id + "'> " + (this).message + "<a></td><td>" + (this).created + "</td></tr>"
+                    $('#messagesList').append(row);
+                });
+            });
+        });
+        $(document).on("click", "a.show", function(event) {
+            event.preventDefault();
+            input = $(this).attr('href');
+            $.get(input, function(data) {
+                alert("id: " + data[0]._id + "\nEmail: " + data[0].email + "\nMessage: " + data[0].message + "\nTime Created: " + data[0].created + "\nTime Changed: " + data[0].changed);
+            });
+
+        });
+
+    });
+    </script>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div style="padding-left: 30px; width:25%"><br>
+            <h1>Public Chat</h1> <br>
+        </div>
+        <form class="" action="/api/messages/add" method="POST">
+            <div class="row">
+                <div class="col-md-4" style="margin-left:30px;"><input class="form-control" type="text" id="email" name="email" value='Email'> </div>
+                <div class="col-md-4"><input class="form-control" type="text" id="message" name="message" value='Message'> </div>
+                <div><button type='submit' class="btn btn-info"> Send message</button></div>
+            </div>
+        </form>
+        <div class="container-fluid table-responsive" style="margin-top: 20px">
+            <table id="grid" class="table table-hover table-striped">
+                <thead class=" thead-dark">
+                    <tr>
+                        <th>User Email</th>
+                        <th>Message </th>
+                        <th>Time added </th>
+                    </tr>
+                </thead>
+                <tbody id="messagesList">
+                </tbody>
+            </table>
+            <div><button id="downloadMessages" class="btn" style="margin: 20px"> Download more messages</button></div>
+        </div>
+    </div>
+</body>
+
+</html>
