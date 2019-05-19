@@ -6,13 +6,11 @@ const path = require('path');
 const favicon = require('serve-favicon');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-
-const PORT = 3000;
 const server = https.createServer({
         key: fs.readFileSync('sslcert/server.key'),
         cert: fs.readFileSync('sslcert/server.crt')
     }, app)
-    .listen(PORT, function() {
+    .listen(process.env.PORT||5000, function() {
         console.log('Server is listening on port ' + PORT + '...');
     });
 
